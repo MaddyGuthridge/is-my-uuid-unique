@@ -67,7 +67,9 @@
     <input type="text" placeholder="Some UUID" bind:value={uuid} />
 
     <div class="row">
-      <button class="btn" onclick={regenerate}>Regenerate</button>
+      <button class="btn" onclick={regenerate}>
+        {uuid === '' ? 'Generate' : 'Regenerate'}
+      </button>
       <input
         class="btn"
         type="submit"
