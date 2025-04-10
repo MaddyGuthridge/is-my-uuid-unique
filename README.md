@@ -1,18 +1,16 @@
-# sv
+# Is your UUID unique?
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Find out if your UUID is unique using this simple website.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
+* Uses an in-memory cache to make the API 🔥BLAZINGLY FAST🔥
+* Limits the cache size so the program only uses about 250 MB in memory
+* Doesn't actually store any data, so I can run it forever without someone
+  flooding the database.
+* Uses the user's `localStorage` to store their list of queries so if they spam
+  the same URL repeatedly it won't overload the server as much.
+* Shhhhhh don't tell anyone that it's fake.
 
 ## Developing
 
@@ -35,4 +33,8 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Deploying
+
+* Why would you want to?
+* If you still want to, use Docker, there's a `docker-compose.yml` for your
+  deployment enjoyment.
