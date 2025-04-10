@@ -68,7 +68,11 @@
 
     <div class="row">
       <button class="btn" onclick={regenerate}>Regenerate</button>
-      <input class="btn" type="submit" value="Check again" />
+      <input
+        class="btn"
+        type="submit"
+        value={uuid === data.uuid ? 'Check again' : 'Check'}
+      />
     </div>
   </form>
 
@@ -88,19 +92,22 @@
         <h2>Oh no! Your UUID is taken!</h2>
         <p>Perhaps you should generate a new one instead.</p>
       {/if}
+      <button
+        class="btn"
+        onclick={(e) => {
+          e.preventDefault();
+          navigator.clipboard.writeText(document.location.toString());
+          shared = true;
+        }}
+      >
+        {!shared
+          ? result.unique
+            ? 'Share the good news!'
+            : 'Share the bad news'
+          : 'Link copied to clipboard'}
+      </button>
     {/await}
   {/if}
-
-  <button
-    class="btn"
-    onclick={(e) => {
-      e.preventDefault();
-      navigator.clipboard.writeText(document.location.toString());
-      shared = true;
-    }}
-  >
-    {!shared ? 'Share' : 'Link copied to clipboard'}
-  </button>
 </main>
 
 <style>
