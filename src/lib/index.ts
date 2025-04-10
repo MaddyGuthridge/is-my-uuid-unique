@@ -17,7 +17,7 @@ export async function checkUuidLocalstorage(uuid: string): Promise<boolean> {
     return true;
   }
   // Wait a moment to simulate loading
-  await sleep(Math.random() * 500);
+  await sleep(Math.random() * 100);
   return false;
 }
 

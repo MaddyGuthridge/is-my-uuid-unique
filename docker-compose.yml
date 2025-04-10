@@ -1,0 +1,11 @@
+services:
+  uuid-unique:
+    build:
+      context: .
+    hostname: uuid-unique
+    restart: always
+    ports:
+      - 127.0.0.1:5097:3000/tcp
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3000
