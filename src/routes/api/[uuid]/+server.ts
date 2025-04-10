@@ -1,7 +1,8 @@
 import { checkUuid } from '$lib/server';
+import { json } from '@sveltejs/kit';
 import validator from 'validator';
 
-export async function load(req: import('./$types').RequestEvent) {
+export async function GET(req: import('./$types').RequestEvent) {
   const uuid = req.params.uuid;
 
   if (!validator.isUUID(uuid)) {
@@ -10,5 +11,5 @@ export async function load(req: import('./$types').RequestEvent) {
 
   const unique = checkUuid(uuid);
   console.log(`${uuid} | ${unique ? 'unique' : 'used'}`)
-  return { unique, valid: true, uuid };
+  return json({ unique, valid: true, uuid });
 }
