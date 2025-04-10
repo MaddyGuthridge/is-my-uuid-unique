@@ -35,9 +35,29 @@
       goto(`/${uuid}`);
     }
   }
+
+  const title = $derived(
+    uuid === '' ? 'Is your UUID unique?' : `Is the UUID "${uuid}" unique?`,
+  );
 </script>
 
-<h1>Is your UUID really unique?</h1>
+<svelte:head>
+  <title>{title}</title>
+  <meta name="author" content="Maddy Guthridge">
+  {#if uuid === ''}
+    <meta
+      name="description"
+      content="Test your UUIDs to discover is they are truly unique using this simple and user-friendly website."
+    />
+  {:else}
+    <meta
+      name="description"
+      content='Find out if the UUID "{uuid}" really is universally unique by checking it using this simple and user-friendly website.'
+    />
+  {/if}
+</svelte:head>
+
+<h1>{title}</h1>
 
 <form {onsubmit}>
   <input type="text" placeholder="Some UUID" bind:value={uuid} />
