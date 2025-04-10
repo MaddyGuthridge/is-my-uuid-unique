@@ -1,24 +1,20 @@
-type Timer = ReturnType<typeof setTimeout>;
 
-const uuids: Record<string, Timer> = {};
+const MAX_CACHE_SIZE = 100_000;
 
-// Clean up after 1 minute
-const REMOVE_TIME = 60_000;
-
-function scheduleRemoveUuid(uuid: string) {
-  return setTimeout(() => { delete uuids[uuid]; }, REMOVE_TIME);
-}
+const uuids: string[] = [];
 
 function addUuid(uuid: string) {
-  uuids[uuid] = scheduleRemoveUuid(uuid);
+  if (uuids.length >= MAX_CACHE_SIZE) {
+    uuids.splice(0, 1);
+  }
+  uuids.push(uuid);
 }
 
 /** Returns whether the UUID is unique */
 export function checkUuid(uuid: string): boolean {
-  if (uuid in uuids) {
-    // Reset timer
-    clearTimeout(uuids[uuid]);
-    uuids[uuid] = scheduleRemoveUuid(uuid);
+  if (uuids.includes(uuid)) {
+    // Add it again so it gets invalidated less quickly
+    addUuid(uuid);
     return false;
   } else {
     addUuid(uuid);

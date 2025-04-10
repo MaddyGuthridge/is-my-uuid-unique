@@ -1,7 +1,10 @@
 import validator from 'validator';
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 /** Returns whether the UUID is unique */
-export function checkUuidLocalstorage(uuid: string): boolean {
+export async function checkUuidLocalstorage(uuid: string): Promise<boolean> {
+  console.log('About to localstorage');
   let uuids: string[];
   try {
     uuids = JSON.parse(localStorage.getItem('uuids') ?? '[]');
@@ -12,12 +15,17 @@ export function checkUuidLocalstorage(uuid: string): boolean {
     // Store the new UUID in localstorage
     uuids.push(uuid);
     localStorage.setItem('uuids', JSON.stringify(uuids));
+    console.log('localStorage: unique');
     return true;
   }
+  console.log('localStorage: exists');
+  // Wait a moment to simulate loading
+  await sleep(Math.random() * 500);
   return false;
 }
 
 export async function checkUuidApi(uuid: string): Promise<boolean> {
+  console.log('About to fetch');
   const res = await fetch(`/api/${uuid}`);
 
   const { unique } = await res.json();
@@ -30,7 +38,7 @@ export async function checkUuid(uuid: string) {
   }
 
   // If it's not unique in localstorage, don't bother sending a request
-  if (!checkUuidLocalstorage(uuid)) {
+  if (!await checkUuidLocalstorage(uuid)) {
     return { unique: false, valid: true, uuid };
   }
 

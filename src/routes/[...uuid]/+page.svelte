@@ -1,6 +1,7 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import { checkUuid } from '$lib';
-  import Picker from './Picker.svelte';
+  import { v4 as uuidV4 } from 'uuid';
 
   type Props = {
     data: import('./$types').PageData;
@@ -10,16 +11,42 @@
 
   let uuid = $state(data.uuid);
 
-  let promise = $derived(checkUuid(uuid));
+  let promise: Promise<{
+    unique: boolean;
+    valid: boolean;
+    uuid: string;
+  }> = $state(Promise.resolve({} as any));
 
   $effect(() => {
     uuid = data.uuid;
+    promise = checkUuid(data.uuid);
   });
+
+  function regenerate() {
+    uuid = uuidV4();
+  }
+
+  function onsubmit(e: SubmitEvent) {
+    e.preventDefault();
+    if (uuid === data.uuid) {
+      // Re-check
+      promise = checkUuid(data.uuid);
+    } else {
+      goto(`/${uuid}`);
+    }
+  }
 </script>
 
 <h1>Is your UUID really unique?</h1>
 
-<Picker bind:value={uuid} />
+<form {onsubmit}>
+  <input type="text" placeholder="Some UUID" bind:value={uuid} />
+
+  <div class="row">
+    <button class="btn" onclick={regenerate}>Regenerate</button>
+    <input class="btn" type="submit" value="Check again" />
+  </div>
+</form>
 
 {#if data.uuid === ''}
   <p>Find out by entering it above.</p>
@@ -43,5 +70,33 @@
 <style>
   :root {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  form {
+    max-width: 59rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  input[type='text'] {
+    width: 100%;
+    font-size: 3rem;
+  }
+  .row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .btn {
+    background-color: rgb(180, 180, 255);
+    border: blue;
+    border-radius: 10px;
+    font-size: 2rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .btn:hover {
+    background-color: rgb(132, 132, 255);
+    cursor: pointer;
   }
 </style>
