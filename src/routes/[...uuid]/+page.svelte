@@ -20,6 +20,7 @@
   $effect(() => {
     uuid = data.uuid;
     promise = checkUuid(data.uuid);
+    shared = false;
   });
 
   function regenerate() {
@@ -39,11 +40,13 @@
   const title = $derived(
     uuid === '' ? 'Is your UUID unique?' : `Is the UUID "${uuid}" unique?`,
   );
+
+  let shared = $state(false);
 </script>
 
 <svelte:head>
   <title>{title}</title>
-  <meta name="author" content="Maddy Guthridge">
+  <meta name="author" content="Maddy Guthridge" />
   {#if uuid === ''}
     <meta
       name="description"
@@ -52,45 +55,65 @@
   {:else}
     <meta
       name="description"
-      content='Find out if the UUID "{uuid}" really is universally unique by checking it using this simple and user-friendly website.'
+      content={`Find out if the UUID "${uuid}" really is universally unique by checking it using this simple and user-friendly website.`}
     />
   {/if}
 </svelte:head>
 
-<h1>{title}</h1>
+<main>
+  <h1>{title}</h1>
 
-<form {onsubmit}>
-  <input type="text" placeholder="Some UUID" bind:value={uuid} />
+  <form {onsubmit}>
+    <input type="text" placeholder="Some UUID" bind:value={uuid} />
 
-  <div class="row">
-    <button class="btn" onclick={regenerate}>Regenerate</button>
-    <input class="btn" type="submit" value="Check again" />
-  </div>
-</form>
+    <div class="row">
+      <button class="btn" onclick={regenerate}>Regenerate</button>
+      <input class="btn" type="submit" value="Check again" />
+    </div>
+  </form>
 
-{#if data.uuid === ''}
-  <p>Find out by entering it above.</p>
-{:else}
-  {#await promise}
-    <p>Give us a sec to load</p>
-  {:then result}
-    {#if !result.valid}
-      <h2>That's not a UUID, silly!</h2>
-      <p>Please enter an actual UUID and try again.</p>
-    {:else if result.unique}
-      <h2>Congrats! Your UUID is unique!</h2>
-      <p>Feel free to use this UUID as required.</p>
-    {:else}
-      <h2>Oh no! Your UUID is taken!</h2>
-      <p>Perhaps you should generate a new one instead.</p>
-    {/if}
-  {/await}
-{/if}
+  {#if data.uuid === ''}
+    <p>Find out by entering it above.</p>
+  {:else}
+    {#await promise}
+      <p>Give us a sec to load</p>
+    {:then result}
+      {#if !result.valid}
+        <h2>That's not a UUID, silly!</h2>
+        <p>Please enter an actual UUID and try again.</p>
+      {:else if result.unique}
+        <h2>Congrats! Your UUID is unique!</h2>
+        <p>Feel free to use this UUID as required.</p>
+      {:else}
+        <h2>Oh no! Your UUID is taken!</h2>
+        <p>Perhaps you should generate a new one instead.</p>
+      {/if}
+    {/await}
+  {/if}
+
+  <button
+    class="btn"
+    onclick={(e) => {
+      e.preventDefault();
+      navigator.clipboard.writeText(document.location.toString());
+      shared = true;
+    }}
+  >
+    {!shared ? 'Share' : 'Link copied to clipboard'}
+  </button>
+</main>
 
 <style>
   :root {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   form {
     max-width: 59rem;
     display: flex;
