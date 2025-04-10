@@ -4,6 +4,7 @@ const MAX_CACHE_SIZE = 100_000;
 const uuids: string[] = [];
 
 function addUuid(uuid: string) {
+  // If we have too many UUIDs, trim the oldest one out
   if (uuids.length >= MAX_CACHE_SIZE) {
     uuids.splice(0, 1);
   }

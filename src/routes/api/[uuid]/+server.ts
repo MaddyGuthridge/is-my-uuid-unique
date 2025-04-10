@@ -10,6 +10,6 @@ export async function GET(req: import('./$types').RequestEvent) {
   }
 
   const unique = checkUuid(uuid);
-  console.log(`${uuid} | ${unique ? 'unique' : 'used'}`)
+  // console.log(`${uuid} | ${unique ? 'unique' : 'used'}`);
   return json({ unique, valid: true, uuid });
 }
