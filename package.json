@@ -26,6 +26,6 @@
 	},
 	"dependencies": {
 		"uuid": "^13.0.0",
-		"validator": "^13.15.23"
+		"validator": "^13.15.26"
 	}
 }
