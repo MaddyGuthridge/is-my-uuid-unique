@@ -1,6 +1,6 @@
 import validator from 'validator';
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const sleep = (ms: number) => new Promise(resolve => void setTimeout(resolve, ms));
 
 /** Returns whether the UUID is unique */
 export async function checkUuidLocalstorage(uuid: string): Promise<boolean> {

@@ -9,10 +9,10 @@ const logger: Handle = async (req) => {
     req.event.request.method,
     `${req.event.url.pathname}:`,
     response.status,
-    `(${Date.now() - requestStartTime} ms)`
+    `(${Date.now() - requestStartTime} ms)`,
   ].join(' ');
   console.log(responseString);
   return response;
-}
+};
 
 export const handle = sequence(logger);

@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 // Generate 100k UUIDs and test them all
 import { v4 as uuidV4 } from 'uuid';
 

@@ -4,7 +4,7 @@
   import { v4 as uuidV4 } from 'uuid';
 
   type Props = {
-    data: import('./$types').PageData;
+    data: import('./$types').PageData,
   };
 
   const { data }: Props = $props();
@@ -12,9 +12,9 @@
   let uuid = $state(data.uuid);
 
   let promise: Promise<{
-    unique: boolean;
-    valid: boolean;
-    uuid: string;
+    unique: boolean,
+    valid: boolean,
+    uuid: string,
   }> = $state(Promise.resolve({} as any));
 
   $effect(() => {
@@ -33,7 +33,7 @@
       // Re-check
       promise = checkUuid(data.uuid);
     } else {
-      goto(`/${uuid}`);
+      void goto(`/${uuid}`);
     }
   }
 
@@ -96,9 +96,9 @@
       {/if}
       <button
         class="btn"
-        onclick={(e) => {
+        onclick={async (e) => {
           e.preventDefault();
-          navigator.clipboard.writeText(document.location.toString());
+          await navigator.clipboard.writeText(document.location.toString());
           shared = true;
         }}
       >

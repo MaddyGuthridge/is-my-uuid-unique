@@ -10,22 +10,43 @@
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"test": "tsx test.ts"
+		"lint": "svelte-kit sync && eslint .",
+		"lint:fix": "svelte-kit sync && eslint --fix .",
+		"test": "tsx tests/test.ts"
 	},
 	"devDependencies": {
+		"@eslint/js": "^10.0.1",
+		"@stylistic/eslint-plugin": "^5.10.0",
 		"@sveltejs/adapter-auto": "^7.0.1",
 		"@sveltejs/adapter-node": "^5.5.4",
 		"@sveltejs/kit": "^2.60.1",
 		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"@tanstack/eslint-plugin-query": "^5.100.10",
 		"@types/validator": "^13.15.10",
+		"eslint": "^10.4.0",
+		"eslint-plugin-n": "^18.0.1",
+		"eslint-plugin-svelte": "^3.17.1",
+		"globals": "^17.6.0",
 		"svelte": "^5.55.7",
 		"svelte-check": "^4.4.8",
-		"tsx": "^4.21.0",
+		"tsx": "^4.22.0",
 		"typescript": "^6.0.3",
+		"typescript-eslint": "^8.59.3",
 		"vite": "^8.0.13"
 	},
 	"dependencies": {
 		"uuid": "^14.0.0",
 		"validator": "^13.15.35"
+	},
+	"//overrides": [
+		"@sveltejs/kit:",
+		"  * Force cookie to be ^0.7.0 to mitigate error as per: https://github.com/jshttp/cookie/pull/167",
+		"",
+		"Also I hate HATE *HATE* this method of commenting"
+	],
+	"overrides": {
+		"@sveltejs/kit": {
+			"cookie": "^0.7.0"
+		}
 	}
 }

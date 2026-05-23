@@ -1,4 +1,3 @@
-
 const MAX_CACHE_SIZE = 100_000;
 
 const uuids: string[] = [];
