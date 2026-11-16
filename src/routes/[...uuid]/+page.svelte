@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { checkUuid } from '$lib';
+  import { checkUuid } from '#lib';
   import { v4 as uuidV4 } from 'uuid';
 
   type Props = {

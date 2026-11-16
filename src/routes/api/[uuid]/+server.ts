@@ -1,4 +1,4 @@
-import { checkUuid } from '$lib/server';
+import { checkUuid } from '#lib/server/index.ts';
 import { json } from '@sveltejs/kit';
 import validator from 'validator';
 
